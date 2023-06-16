@@ -5,26 +5,25 @@ from pathlib import Path
 import boto3
 import paramiko
 
-from neural_network_model.model import SETTING
-
+from model import SETTING
 # Initialize the logger
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # AWS credentials
-ACCESS_KEY = SETTING.EC2_SETTING.ACCESS_KEY
-SECRET_KEY = SETTING.EC2_SETTING.SECRET_KEY
+ACCESS_KEY = SETTING.EC2.ACCESS_KEY
+SECRET_KEY = SETTING.EC2.SECRET_KEY
 
 # EC2 instance details
-AMI_ID = SETTING.EC2_SETTING.AMI_ID  # free-tier Ubuntu 18.04 LTS 64-bit
-INSTANCE_TYPE = SETTING.EC2_SETTING.INSTANCE_TYPE  # t2.micro
-KEY_NAME = SETTING.EC2_SETTING.KEY_NAME  # 'your_key_name'
+AMI_ID = SETTING.EC2.AMI_ID  # free-tier Ubuntu 18.04 LTS 64-bit
+INSTANCE_TYPE = SETTING.EC2.INSTANCE_TYPE  # t2.micro
+KEY_NAME = SETTING.EC2.KEY_NAME  # 'your_key_name'
 # SECURITY_GROUP = 'your_security_group'
-REGION = SETTING.EC2_SETTING.REGION_NAME  # 'your_region'
+REGION = SETTING.EC2.REGION_NAME  # 'your_region'
 
 # SSH key details
-PEM_FILE = SETTING.EC2_SETTING.PEM_FILE_ADDRESS  # 'your_pem_file.pem'
-SSH_USERNAME = SETTING.EC2_SETTING.SSH_USER  # 'your_ssh_username'
+PEM_FILE = SETTING.EC2.PEM_FILE_ADDRESS  # 'your_pem_file.pem'
+SSH_USERNAME = SETTING.EC2.SSH_USER  # 'your_ssh_username'
 
 
 class MyEC2:
@@ -35,18 +34,18 @@ class MyEC2:
     """
 
     def __init__(self, *args, **kwargs):
-        self.access_key = kwargs.get("access_key") or SETTING.EC2_SETTING.ACCESS_KEY
-        self.secret_key = kwargs.get("secret_key") or SETTING.EC2_SETTING.SECRET_KEY
+        self.access_key = kwargs.get("access_key") or SETTING.EC2.ACCESS_KEY
+        self.secret_key = kwargs.get("secret_key") or SETTING.EC2.SECRET_KEY
 
-        self.ami_id = kwargs.get("ami_id") or SETTING.EC2_SETTING.AMI_ID
+        self.ami_id = kwargs.get("ami_id") or SETTING.EC2.AMI_ID
         self.instance_type = (
-            kwargs.get("instance_type") or SETTING.EC2_SETTING.INSTANCE_TYPE
+            kwargs.get("instance_type") or SETTING.EC2.INSTANCE_TYPE
         )
-        self.region = kwargs.get("region") or SETTING.EC2_SETTING.REGION_NAME
+        self.region = kwargs.get("region") or SETTING.EC2.REGION_NAME
 
-        self.key_name = kwargs.get("key_name") or SETTING.EC2_SETTING.KEY_NAME
-        self.pem_file = kwargs.get("pem_file") or SETTING.EC2_SETTING.PEM_FILE_ADDRESS
-        self.ssh_username = kwargs.get("ssh_username") or SETTING.EC2_SETTING.SSH_USER
+        self.key_name = kwargs.get("key_name") or SETTING.EC2.KEY_NAME
+        self.pem_file = kwargs.get("pem_file") or SETTING.EC2.PEM_FILE_ADDRESS
+        self.ssh_username = kwargs.get("ssh_username") or SETTING.EC2.SSH_USER
 
         self.ec2_resource = None
         self.instance_id = None
@@ -66,7 +65,7 @@ class MyEC2:
             ImageId=self.ami_id,
             InstanceType=self.instance_type,
             KeyName=self.key_name,
-            SecurityGroups=[SETTING.EC2_SETTING.SECURITY_GROUP_NAME],
+            SecurityGroups=[SETTING.EC2.SECURITY_GROUP_NAME],
             MinCount=1,
             MaxCount=1,
         )
@@ -84,9 +83,9 @@ class MyEC2:
 
         # Create a security group
         response = ec2_client.create_security_group(
-            Description=SETTING.EC2_SETTING.SECURITY_GROUP_DESCRIPTION,
-            GroupName=SETTING.EC2_SETTING.SECURITY_GROUP_NAME,
-            VpcId=SETTING.EC2_SETTING.VPC_ID,
+            Description=SETTING.EC2.SECURITY_GROUP_DESCRIPTION,
+            GroupName=SETTING.EC2.SECURITY_GROUP_NAME,
+            VpcId=SETTING.EC2.VPC_ID,
         )
 
         # Add inbound rule to allow incoming SSH traffic
