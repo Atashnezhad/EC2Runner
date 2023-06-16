@@ -5,7 +5,7 @@ from pathlib import Path
 import boto3
 import paramiko
 
-from model import SETTING
+from main.model import SETTING
 # Initialize the logger
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
