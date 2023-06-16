@@ -1,4 +1,8 @@
-python-dotenv
-pydantic
-boto3
-paramiko
+pip>=23.1.2
+wheel>=0.38.4
+cryptography>=41.0.1
+setuptools>=65.5.1
+click>=8.1.3
+pydantic>=1.10.9
+packaging>=23.1
+platformdirs>=3.5.3
