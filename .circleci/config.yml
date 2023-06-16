@@ -12,7 +12,7 @@ jobs:
       - image: cimg/python:3.9
     steps:
       - checkout
-      - run: make install_requirements
+      - run: make install
       - run: python --version
       - run: make test
       - run: make test-coverage
