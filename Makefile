@@ -25,3 +25,10 @@ test-coverage:
 	@python -m pytest --cov=neural_network_model --cov-report=html
 	# show the coverage report in the terminal
 	@python -m pytest --cov=neural_network_model --cov-report=term-missing
+
+# reomve .idea from git cache
+.PHONY: clean
+clean:
+	@echo "Removing .idea from git cache..."
+	@git rm -r --cached .idea
+	@clear
